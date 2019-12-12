@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<nav class="navbar navbar-expand-md navbar-dark sticky-top" id="my-nav">
+
+        <div class=" navbar-collapse collapse" id="navbar-menu">
+
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item mr-2"><a href="{{ url_for('home')}}" class="nav-link text-light">Home</a></li>
+                
+                <li class="nav-item ml-auto"><a href="{{ url_for('register')}}" class="nav-link text-light">Register</a></li>
+                <li class="nav-item m-auto"><a href="{{ url_for('login')}}" class="nav-link text-light">Login</a></li>
+            </ul>
+
+            <!-- <form class="form-inline mr-2">
+                <input type="search" placeholder="search" aria-label="Search" class="form-control-sm mr-sm-2">
+                <button class="btn btn-sm btn-light my-sm-0 ml-1" type="submit"><i class="fa fa-search"></i></button>
+            </form> -->
+</nav>
+
+<div class='container'>
+    <div class='row'>
+        <div class=' col-md-7 col-sm-8 col-lg-6 content-section mx-auto'>
+            <form action="" method="POST">
+                {{ form.hidden_tag() }}
+                <fieldset class='form-group'>
+                    <legend class="text-center">Register Staff</legend>
+                    <div class='form-group'>
+                        {{ form.fullname.label(class='form-control-label') }}
+
+                        {% if form.fullname.errors %}
+                            {{ form.fullname(class='form-control is-invalid') }}
+                            <div class='invalid-feedback'>
+                                {% for error in form.fullname.errors %}
+                                    <span>{{error}}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.fullname(class='form-control') }}
+                        {% endif %}
+                       
+                    </div>
+        
+                    <div class='form-group'>
+                        {{ form.username.label(class='form-control-label') }}
+
+                        {% if form.username.errors %}
+                            {{ form.username(class='form-control is-invalid') }}
+                            <div class='invalid-feedback'>
+                                {% for error in form.username.errors %}
+                                     <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.username(class='form-control') }}
+                        {% endif %}
+                    </div>
+        
+                    <div class='form-group'>
+                            {{ form.email.label(class='form-control-label') }}
+    
+                            {% if form.email.errors %}
+                                {{ form.email(class='form-control is-invalid') }}
+                                <div class='invalid-feedback'>
+                                    {% for error in form.email.errors %}
+                                         <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.email(class='form-control') }}
+                            {% endif %}
+                        </div>
+        
+                        <div class='form-group'>
+                                {{ form.role.label(class='form-control-label') }}
+        
+                                {% if form.role.errors %}
+                                    {{ form.role(class='form-control is-invalid') }}
+                                    <div class='invalid-feedback'>
+                                        {% for error in form.role.errors %}
+                                             <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.role(class='form-control') }}
+                                {% endif %}
+                            </div>
+        
+                            <div class='form-group'>
+                                {{ form.password.label(class='form-control-label') }}
+        
+                                {% if form.password.errors %}
+                                    {{ form.password(class='form-control is-invalid') }}
+                                    <div class='invalid-feedback'>
+                                        {% for error in form.password.errors %}
+                                                <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.password(class='form-control') }}
+                                {% endif %}
+                            </div>
+        
+                                <div class='form-group'>
+                                    {{ form.confirm_password.label(class='form-control-label') }}
+            
+                                    {% if form.confirm_password.errors %}
+                                        {{ form.confirm_password(class='form-control is-invalid') }}
+                                        <div class='invalid-feedback'>
+                                            {% for error in form.confirm_password.errors %}
+                                                    <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.confirm_password(class='form-control') }}
+                                    {% endif %}
+                                </div>
+        
+        
+        
+                </fieldset>
+        
+                <div class='form-group'>
+                    
+                    {{ form.submit(class=' form-control btn btn-primary') }}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+ 
+{% endblock content %}
