@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<nav class="navbar navbar-expand-md navbar-dark sticky-top" id="my-nav">
+<nav class="navbar navbar-expand-sm navbar-dark sticky-top" id="my-nav">
+        <button class='navbar-toggler ml-auto' type="button" data-toggle='collapse' data-target='#homemenu'>
+            <span class='navbar-toggler-icon'></span>
+        </button>
 
-        <div class=" navbar-collapse collapse" id="navbar-menu">
-
+        <div class="collapse navbar-collapse" id="homemenu">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item mr-2"><a href="{{ url_for('home')}}" class="nav-link text-light">Home</a></li>
-                
-                <li class="nav-item ml-auto"><a href="{{ url_for('register')}}" class="nav-link text-light">Register</a></li>
-                <li class="nav-item m-auto"><a href="{{ url_for('login')}}" class="nav-link text-light">Login</a></li>
+                <li class="nav-item"><a href="{{ url_for('home')}}" class="nav-link text-light">Home</a></li>
+                <li class="nav-item"><a href="{{ url_for('register')}}" class="nav-link text-light">Register</a></li>
+                <li class="nav-item"><a href="{{ url_for('login')}}" class="nav-link text-light">Login</a></li>
             </ul>
-
+        </div>
             <!-- <form class="form-inline mr-2">
                 <input type="search" placeholder="search" aria-label="Search" class="form-control-sm mr-sm-2">
                 <button class="btn btn-sm btn-light my-sm-0 ml-1" type="submit"><i class="fa fa-search"></i></button>
