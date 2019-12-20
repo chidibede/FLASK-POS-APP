@@ -1,18 +1,28 @@
-from app import app, db, bcrypt
+''' Application views script'''
+
+# Libraries and imports needed
+from pointofsale import app, db, bcrypt
 from flask import Flask, render_template, url_for, flash, redirect
-from app.forms import RegistrationForm, LoginForm
-from app.models import User
+from pointofsale.forms import RegistrationForm, LoginForm
+from pointofsale.models import User
 
 
-''' App Routes '''
 # function that renders home page
 @app.route('/')
 @app.route('/home')
 def home():
+    '''
+     Function that renders the homepage
+     of the app
+    '''
     return render_template('home.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    '''
+     Function that renders the registration page
+     of the app and creates the user that registered
+    '''
     form = RegistrationForm()
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
@@ -29,6 +39,10 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    '''
+     Function that renders the Login
+     page of the app
+    '''
     form = LoginForm()
     if form.validate_on_submit():
         if form.username.data == 'chidibede' and form.password.data == '111':

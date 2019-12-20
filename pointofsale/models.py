@@ -1,6 +1,11 @@
-from app import db
+'''
+    Script that has all database models
+    of the app. ORM (Object Relational Mapper)
+     style models are used
+'''
+from pointofsale import db
 
-''' App Database '''
+# User Database Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fullname = db.Column(db.String(100), unique=True, nullable=False)

@@ -5,8 +5,9 @@ Author: Chidi Bede Enwereji
 Company: Emedia Bay
 Client: Nelson Obiem
 Client Company: 
+
 '''
-from app import app
+from pointofsale import app
 
 # Running the App
 if __name__ == "__main__":
