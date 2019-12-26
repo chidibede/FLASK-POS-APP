@@ -5,6 +5,7 @@ from pointofsale import app, db, bcrypt
 from flask import Flask, render_template, url_for, flash, redirect
 from pointofsale.forms import RegistrationForm, LoginForm
 from pointofsale.models import User
+from flask_login import login_user
 
 
 # function that renders home page
@@ -45,9 +46,10 @@ def login():
     '''
     form = LoginForm()
     if form.validate_on_submit():
-        if form.username.data == 'chidibede' and form.password.data == '111':
-            flash('Logged in Successfully!', 'success')
-            return redirect(url_for('dashboard'))
+        user = User.query.filter_by(username = form.username.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=False)
+            return redirect('dashboard')
         else:
             flash('Username or Password incorrect, Try again!', 'danger')
     return render_template('login.html', form=form)
@@ -55,5 +57,25 @@ def login():
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html')
+
+@app.route('/sales')
+def sales():
+    return render_template('sales.html')
+
+@app.route('/inventory')
+def inventory():
+    return render_template('inventory.html')
+
+@app.route('/employee')
+def employee():
+    return render_template('employee.html')
+
+@app.route('/analytics')
+def analytics():
+    return render_template('analytics.html')
+
+@app.route('/settings')
+def settings():
+    return render_template('settings.html')
 
 

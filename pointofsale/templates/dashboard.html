@@ -1,1 +1,176 @@
-{% extends 'base.html' %}
+{% extends 'mainapp_layout.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+{% block content %} 
+
+<!-- Beginning of Navigation -->
+
+<nav class="navbar navbar-expand-md navbar-light">
+    <button class="navbar-toggler ml-auto" data-toggle='collapse' data-target='#mynav'>
+        <span class='navbar-toggler-icon'></span>
+    </button>
+
+    <!-- Beginning of navigation div -->
+
+    <div class="collapse navbar-collapse" id=mynav>
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- Beginning of sidebar -->
+                <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
+                    <a href="{{ url_for('dashboard') }}" class=' nav-link d-block text-center text-light brand-name'>ASUA DASHBOARD</a>
+                    <a href="#" class='nav-link d-block text-light brand-name mb-4'>Nelson: Admin</a>
+                    <ul class='navbar-nav flex-column'>
+                        <li class='nav-item'><a href="{{ url_for('dashboard') }}" class="nav-link text-light sidebar-link active-menu"><i class="fas fa-tachometer-alt fa-lg mr-4"></i>Dashboard</a></li>
+                        <li class='nav-item'><a href="{{ url_for('home') }}" class="nav-link text-light sidebar-link "><i class="fas fa-home fa-lg mr-4"></i>Home</a></li>
+                        <li class='nav-item'><a href="{{ url_for('sales') }}" class="nav-link text-light sidebar-link"><i class="fas fa-shopping-cart fa-lg mr-4"></i>Sell</a></li>
+                        <li class='nav-item'><a href="{{ url_for('inventory') }}" class="nav-link text-light sidebar-link"><i class="fas fa-store fa-lg mr-4"></i>Inventory </a></li>
+                        <li class='nav-item'><a href="{{ url_for('employee') }}" class="nav-link text-light sidebar-link"><i class="fas fa-user-alt fa-lg mr-4"></i>Employee </a></li>
+                        <li class='nav-item'><a href="{{ url_for('analytics') }}" class="nav-link text-light sidebar-link"><i class="fas fa-chart-bar fa-lg mr-4"></i>Report</a></li>
+                        <li class='nav-item'><a href="{{ url_for('settings') }}" class="nav-link text-light sidebar-link"><i class="fas fa-wrench fa-lg mr-4"></i>Settings</a></li>
+                        <li class='nav-item'><a href="{{ url_for('home') }}" class="nav-link text-light sidebar-link"  data-toggle="modal" data-target='#sign-out-modal'><i class="fas fa-sign-out-alt fa-lg mr-4"></i>Log out</a></li>
+                    </ul>
+                </div>
+                <!-- End of sidebar -->
+
+                <!-- beginning of top navbar -->
+                <div class="col-xl-10 col-lg-9 col-md-8 top-nav fixed-top ml-auto mb-3">
+                    <div class="row align-items-center p-2">
+                        <div class="col-md-3">
+                            <a href="{{ url_for('dashboard') }}" class='nav-link d-block text-light sidebar-link'>DASHBOARD</a>
+                        </div>
+                        <div class="col-md-4">
+                            <form action=""></form>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="search... ">
+                                    <button type=button class="btn btn-light search-button" ><i class='fas fa-search'></i></button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-5">
+                            <ul class="navbar-nav">
+                                <li class='nav-item'><a href="{{ url_for('sales') }}" class="nav-link text-light sidebar-link"><i class="fas fa-shopping-cart mr-4"></i>Sell</a></li>
+                                <li class='nav-item ml-auto'><a href="#" class="nav-link text-light sidebar-link"><i class="fas fa-bell mr-4"></i></a></li>
+                                <li class='nav-item' data-toggle="modal" data-target='#sign-out-modal'><a href="#" class="nav-link text-light sidebar-link text-danger"><i class="fas fa-sign-out-alt mr-4 sign-out"></i></a></li>
+                        </div>
+                    </div>
+                </div> <!-- End of row class  -->
+                <!-- end of top navbar -->
+
+            </div>
+        <!-- </div> End of container fluid div -->
+
+    </div>
+    <!-- End of navigation div -->
+</nav>
+
+<!-- Start of Bootstrap modal -->
+<div class="modal fade" id="sign-out-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Do you want to leave?</h4>
+                <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <p>Click Logout to leave</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type='button' class='btn btn-success' data-dismiss='modal'>Stay Here</button>
+                <a href="{{ url_for('home')}}" class="btn btn-danger">Log out</a>
+            </div>
+        </div>
+        
+    </div>
+
+</div>
+<!-- End of Bootstrap modal -->
+
+<!-- Start of Dashboard Cards-->
+<section>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-lg-9 col-md-8 col-xl-10 ml-auto">
+                <div class="row pt-3 mt-4">
+                    <div class="col-sm-6 mb-3">
+                        <div class="card my-card">
+                            <div class="card-body d-flex justify-content-between">
+                                <i class="fas fa-shopping-cart fa-3x text-info"></i>
+                                <div>
+                                    <h3 class='text-muted'>Sales</h3>
+                                    <h4 class='text-muted'>200,000 Naira</h4>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <i class="fas fa-sync mr-3"></i>
+                                <span>Updated</span>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <div class="card my-card">
+                            <div class="card-body d-flex justify-content-between">
+                                <i class="fas fa-money-bill-alt fa-3x text-success"></i>
+                                <div>
+                                    <h3 class='text-muted'>Expenses</h3class='text-muted'>
+                                    <h4 class='text-muted'>200,000 Naira</h4>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <i class="fas fa-sync mr-3"></i>
+                                <span>Updated</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <div class="card my-card">
+                            <div class="card-body d-flex justify-content-between">
+                                <i class="fas fa-chart-bar fa-3x text-info"></i>
+                                <div>
+                                    <h3 class='text-muted'>Summary</h3>
+                                    <h4 class='text-muted text-center'>10 sales</h4>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <i class="fas fa-sync mr-3"></i>
+                                <span>Updated</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3">
+                        <div class="card my-card">
+                            <div class="card-body d-flex justify-content-between">
+                                <i class="fas fa-user-alt fa-3x text-info"></i>
+                                <div>
+                                    <h3 class='text-muted'>Vendors</h3>
+                                    <h4 class='text-muted text-center'>5</h4>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <i class="fas fa-sync mr-3"></i>
+                                <span>Updated</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+    
+{% endblock content %}

@@ -1,0 +1,55 @@
+.sidebar{
+    height: 100vh;
+    background-image: url(../img/home_screen.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 5px 7px 9px #999999;
+}
+
+.sidebar-link{
+    transition: all -5s;
+}
+.sidebar-link:hover{
+    background-color: #444;
+    border-radius: 7px;
+    transform: translateY(-1px);
+}
+
+.brand-name{
+    border-bottom: 2px solid white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 7px;
+}
+
+.active-menu{
+    background-color: orangered;
+    border-radius: 7px;
+    box-shadow: 2px 5px 7px #111;
+}
+
+.active-menu:hover{
+    background-color: coral;
+    border-radius: 7px;
+    box-shadow: 2px 5px 7px #111;
+    transform: translateY(-1px);
+}
+
+.top-nav{
+    background-color: #111;
+}
+
+.sign-out{
+    color: red;
+}
+
+.card-body{
+    box-shadow: 1px 2px 5px #999;
+    transition: all -4s;
+}
+
+.card-body:hover{
+    box-shadow: 2px 3px 15px;
+    transform: translateY(-1px);
+}

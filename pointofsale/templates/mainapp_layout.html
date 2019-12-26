@@ -6,29 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/startup.css') }}">
-    <title>{% block head %} {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainapp.css') }}">
+    <title>{% block title %} {% endblock title %}</title>
 </head>
+
 <body>
-    
-        {% with messages = get_flashed_messages(with_categories=True)%}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class='row'>
-                        <div class='alert alert-{{ category }} col-md-6 mx-auto'>
-                                {{ message }}
-                        </div>
-                      
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
- 
     {% block content %} {% endblock content %}
+    
+
     <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/popper.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/all.min.js')}}"></script>
 </body>
 </html>
-
- 

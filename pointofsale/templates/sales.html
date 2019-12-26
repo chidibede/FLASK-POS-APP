@@ -1,0 +1,77 @@
+{% extends 'mainapp_layout.html' %}
+
+{% block title %} Sell Goods {% endblock title %}
+
+{% block content %} 
+
+<!-- Beginning of Navigation -->
+
+<nav class="navbar navbar-expand-md navbar-light">
+    <button class="navbar-toggler ml-auto" data-toggle='collapse' data-target='#mynav'>
+        <span class='navbar-toggler-icon'></span>
+    </button>
+
+    <!-- Beginning of navigation div -->
+
+    <div class="collapse navbar-collapse" id=mynav>
+        <div class="container-fluid">
+            <div class="row">
+
+                <!-- beginning of top navbar -->
+                <div class="col-xl-12 col-lg-12 col-md-12 top-nav fixed-top ml-auto">
+                    <div class="row align-items-center p-2">
+                        <div class="col-md-3">
+                            <a href="{{ url_for('dashboard') }}" class='nav-link d-block text-light sidebar-link'>DASHBOARD</a>
+                        </div>
+                        <div class="col-md-4">
+                            <form action=""></form>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="search... ">
+                                    <button type=button class="btn btn-light search-button" ><i class='fas fa-search'></i></button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-md-5">
+                            <ul class="navbar-nav">
+                                <li class='nav-item'><a href="{{ url_for('sales') }}" class="nav-link text-light sidebar-link"><i class="fas fa-shopping-cart fa-lg mr-4"></i>Sell</a></li>
+                                <li class='nav-item ml-auto'><a href="#" class="nav-link text-light sidebar-link"><i class="fas fa-bell fa-lg mr-4"></i></a></li>
+                                <li class='nav-item' data-toggle="modal" data-target='#sign-out-modal'><a href="#" class="nav-link text-light sidebar-link text-danger"><i class="fas fa-sign-out-alt fa-lg mr-4 sign-out"></i></a></li>
+                        </div>
+                    </div>
+                </div> <!-- End of row class  -->
+                <!-- end of top navbar -->
+
+            </div>
+        <!-- </div> End of container fluid div -->
+
+    </div>
+    <!-- End of navigation div -->
+</nav>
+
+<!-- Start of Bootstrap modal -->
+<div class="modal fade" id="sign-out-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Do you want to leave?</h4>
+                <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <p>Click Logout to leave</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type='button' class='btn btn-success' data-dismiss='modal'>Stay Here</button>
+                <a href="{{ url_for('home')}}" class="btn btn-danger">Log out</a>
+            </div>
+        </div>
+        
+    </div>
+
+</div>
+<!-- End of Bootstrap modal -->
+<h1 class='text-center mt-4'>Sell Goods</h1>
+    
+{% endblock content %}
