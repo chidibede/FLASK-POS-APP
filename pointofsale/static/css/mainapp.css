@@ -1,3 +1,7 @@
+body{
+background-color: #eee;
+}
+
 .sidebar{
     height: 100vh;
     background-image: url(../img/home_screen.jpg);
@@ -52,4 +56,41 @@
 .card-body:hover{
     box-shadow: 2px 3px 15px;
     transform: translateY(-1px);
+}
+
+.quicklink{
+    transition: all -5s;
+    color: #7e7d7d;
+}
+.quicklink:hover{
+    background-color: rgb(26, 47, 47);
+    border-radius: 7px;
+    transform: translateY(-1px);
+    color: white;
+    
+}
+
+.inventory-button{
+    font-size: smaller;
+    margin: 1px;
+}
+
+.inventory-heading{
+    margin: 1em 0 0.5em 0;
+	color: #343434;
+	font-weight: normal;
+	font-family: 'Ultra', sans-serif;   
+	font-size: 36px;
+	line-height: 42px;
+	text-transform: uppercase;
+	text-shadow: 0 4px white, 0 3px #777;
+}
+
+.profile{
+    border: 1px solid black;
+    padding: 10px;
+    box-shadow: 1px 4px 6px #999;
+    height: 50vh;
+    background-color: white;
+    margin-top: 10px
 }

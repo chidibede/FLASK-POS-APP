@@ -1,0 +1,18 @@
+{% extends 'mainapp_layout.html' %}
+
+{% block title %} User Profile {% endblock title %}
+
+{% block content %} 
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 profile text-center">
+            <h3>Full Name: {{ current_user.fullname }}</h3>
+            <h4>Username: {{ current_user.username }}</h4>
+            <p>User Role: {{ current_user.role }}</p>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}

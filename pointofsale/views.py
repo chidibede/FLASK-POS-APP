@@ -5,7 +5,7 @@ from pointofsale import app, db, bcrypt
 from flask import Flask, render_template, url_for, flash, redirect
 from pointofsale.forms import RegistrationForm, LoginForm
 from pointofsale.models import User
-from flask_login import login_user
+from flask_login import login_user, logout_user, current_user, login_required
 
 
 # function that renders home page
@@ -54,7 +54,21 @@ def login():
             flash('Username or Password incorrect, Try again!', 'danger')
     return render_template('login.html', form=form)
 
+@app.route('/logout')
+def logout():
+    '''
+     Function that logs out user
+    '''
+    logout_user()
+    return redirect(url_for('home'))
+
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html')
+
 @app.route('/dashboard')
+@login_required
 def dashboard():
     return render_template('dashboard.html')
 
@@ -63,6 +77,7 @@ def sales():
     return render_template('sales.html')
 
 @app.route('/inventory')
+@login_required
 def inventory():
     return render_template('inventory.html')
 
@@ -73,9 +88,3 @@ def employee():
 @app.route('/analytics')
 def analytics():
     return render_template('analytics.html')
-
-@app.route('/settings')
-def settings():
-    return render_template('settings.html')
-
-

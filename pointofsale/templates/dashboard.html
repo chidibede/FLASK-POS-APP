@@ -1,9 +1,18 @@
-{% extends 'mainapp_layout.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mainapp.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dataTables.bootstrap4.min.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/select.bootstrap4.min.css') }}"/>
+    <title>{% block title %} {% endblock title %}</title>
+</head> 
 
-{% block title %} Dashboard {% endblock title %}
-
-{% block content %} 
-
+<body>
 <!-- Beginning of Navigation -->
 
 <nav class="navbar navbar-expand-md navbar-light">
@@ -20,16 +29,64 @@
                 <!-- Beginning of sidebar -->
                 <div class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
                     <a href="{{ url_for('dashboard') }}" class=' nav-link d-block text-center text-light brand-name'>ASUA DASHBOARD</a>
-                    <a href="#" class='nav-link d-block text-light brand-name mb-4'>Nelson: Admin</a>
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('profile') }}" class='nav-link d-block text-light brand-name mb-4'>{{ current_user.username }}: {{ current_user.role }}</a>
+                    {% endif %}
                     <ul class='navbar-nav flex-column'>
-                        <li class='nav-item'><a href="{{ url_for('dashboard') }}" class="nav-link text-light sidebar-link active-menu"><i class="fas fa-tachometer-alt fa-lg mr-4"></i>Dashboard</a></li>
-                        <li class='nav-item'><a href="{{ url_for('home') }}" class="nav-link text-light sidebar-link "><i class="fas fa-home fa-lg mr-4"></i>Home</a></li>
-                        <li class='nav-item'><a href="{{ url_for('sales') }}" class="nav-link text-light sidebar-link"><i class="fas fa-shopping-cart fa-lg mr-4"></i>Sell</a></li>
-                        <li class='nav-item'><a href="{{ url_for('inventory') }}" class="nav-link text-light sidebar-link"><i class="fas fa-store fa-lg mr-4"></i>Inventory </a></li>
-                        <li class='nav-item'><a href="{{ url_for('employee') }}" class="nav-link text-light sidebar-link"><i class="fas fa-user-alt fa-lg mr-4"></i>Employee </a></li>
-                        <li class='nav-item'><a href="{{ url_for('analytics') }}" class="nav-link text-light sidebar-link"><i class="fas fa-chart-bar fa-lg mr-4"></i>Report</a></li>
-                        <li class='nav-item'><a href="{{ url_for('settings') }}" class="nav-link text-light sidebar-link"><i class="fas fa-wrench fa-lg mr-4"></i>Settings</a></li>
-                        <li class='nav-item'><a href="{{ url_for('home') }}" class="nav-link text-light sidebar-link"  data-toggle="modal" data-target='#sign-out-modal'><i class="fas fa-sign-out-alt fa-lg mr-4"></i>Log out</a></li>
+                        <li class='nav-item'>
+                            <a href="{{ url_for('dashboard') }}" class="nav-link text-light sidebar-link active-menu">
+                                <i class="fas fa-tachometer-alt fa-lg mr-4"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class='nav-item'>
+                            <a href="{{ url_for('home') }}" class="nav-link text-light sidebar-link ">
+                                <i class="fas fa-home fa-lg mr-4"></i>
+                                Home
+                            </a>
+                        </li>
+
+                        <li class='nav-item'>
+                            <a href="{{ url_for('sales') }}" class="nav-link text-light sidebar-link">
+                                <i class="fas fa-shopping-cart fa-lg mr-4"></i>
+                                Sell
+                            </a>
+                        </li>
+
+                        <li class='nav-item'>
+                            <a href="{{ url_for('inventory') }}" class="nav-link text-light sidebar-link">
+                                <i class="fas fa-store fa-lg mr-4"></i>
+                                Inventory 
+                            </a>
+                        </li>
+
+                        <li class='nav-item'>
+                            <a href="{{ url_for('employee') }}" class="nav-link text-light sidebar-link">
+                                <i class="fas fa-user-alt fa-lg mr-4"></i>
+                                Staff
+                            </a>
+                        </li>
+
+                        <li class='nav-item'>
+                            <a href="{{ url_for('analytics') }}" class="nav-link text-light sidebar-link">
+                                <i class="fas fa-chart-bar fa-lg mr-4"></i>
+                                Report
+                            </a>
+                        </li>
+
+                        <li class='nav-item'>
+                            <a href="{{ url_for('profile') }}" class="nav-link text-light sidebar-link">
+                                <i class="fas fa-user-alt fa-lg mr-4"></i>
+                                Profile
+                            </a>
+                        </li>
+
+                        <li class='nav-item'>
+                            <a href="#" class="nav-link text-light sidebar-link"  data-toggle="modal" data-target='#sign-out-modal'>
+                                <i class="fas fa-sign-out-alt fa-lg mr-4"></i>
+                                Log out
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- End of sidebar -->
@@ -38,7 +95,7 @@
                 <div class="col-xl-10 col-lg-9 col-md-8 top-nav fixed-top ml-auto mb-3">
                     <div class="row align-items-center p-2">
                         <div class="col-md-3">
-                            <a href="{{ url_for('dashboard') }}" class='nav-link d-block text-light sidebar-link'>DASHBOARD</a>
+                            <a href="{{ url_for('dashboard') }}" class='nav-link d-block text-light sidebar-link text-center'>DASHBOARD</a>
                         </div>
                         <div class="col-md-4">
                             <form action=""></form>
@@ -51,9 +108,29 @@
 
                         <div class="col-md-5">
                             <ul class="navbar-nav">
-                                <li class='nav-item'><a href="{{ url_for('sales') }}" class="nav-link text-light sidebar-link"><i class="fas fa-shopping-cart mr-4"></i>Sell</a></li>
-                                <li class='nav-item ml-auto'><a href="#" class="nav-link text-light sidebar-link"><i class="fas fa-bell mr-4"></i></a></li>
-                                <li class='nav-item' data-toggle="modal" data-target='#sign-out-modal'><a href="#" class="nav-link text-light sidebar-link text-danger"><i class="fas fa-sign-out-alt mr-4 sign-out"></i></a></li>
+                                <li class='nav-item'>
+                                    <a href="{{ url_for('sales') }}" class="nav-link text-light sidebar-link">
+                                        <i class="fas fa-shopping-cart mr-4"></i>
+                                        Sell
+                                    </a>
+                                </li>
+                                
+                                <li class='nav-item ml-auto'>
+                                    {% if current_user.is_authenticated %}
+                                        <a href="{{ url_for('profile') }}" class='nav-link text-light sidebar-link'>{{ current_user.username }}</a>
+                                    {% endif %}
+                                </li>
+                                <li class='nav-item '>
+                                    <a href="#" class="nav-link text-light sidebar-link">
+                                        <i class="fas fa-bell mr-4"></i>
+                                    </a>
+                                </li>
+                                
+                                <li class='nav-item' data-toggle="modal" data-target='#sign-out-modal'>
+                                    <a href="#" class="nav-link text-light sidebar-link text-danger">
+                                        <i class="fas fa-sign-out-alt mr-4 sign-out"></i>
+                                    </a>
+                                </li>
                         </div>
                     </div>
                 </div> <!-- End of row class  -->
@@ -66,43 +143,21 @@
     <!-- End of navigation div -->
 </nav>
 
-<!-- Start of Bootstrap modal -->
-<div class="modal fade" id="sign-out-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Do you want to leave?</h4>
-                <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
-            </div>
 
-            <div class="modal-body">
-                <p>Click Logout to leave</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type='button' class='btn btn-success' data-dismiss='modal'>Stay Here</button>
-                <a href="{{ url_for('home')}}" class="btn btn-danger">Log out</a>
-            </div>
-        </div>
-        
-    </div>
-
-</div>
-<!-- End of Bootstrap modal -->
 
 <!-- Start of Dashboard Cards-->
 <section>
-    <div class="container-fluid">
+    <div class="container-fluid brand-name">
         <div class="row mt-4">
             <div class="col-lg-9 col-md-8 col-xl-10 ml-auto">
                 <div class="row pt-3 mt-4">
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-xl-3 col-lg-3 col-sm-6 mb-3">
                         <div class="card my-card">
                             <div class="card-body d-flex justify-content-between">
                                 <i class="fas fa-shopping-cart fa-3x text-info"></i>
                                 <div>
-                                    <h3 class='text-muted'>Sales</h3>
-                                    <h4 class='text-muted'>200,000 Naira</h4>
+                                    <h4 class='text-muted'>Sales</h4>
+                                    <p class='text-muted text-center'>N200,000</p>
                                 </div>
                             </div>
 
@@ -114,13 +169,13 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-xl-3 col-lg-3 col-sm-6 mb-3">
                         <div class="card my-card">
                             <div class="card-body d-flex justify-content-between">
                                 <i class="fas fa-money-bill-alt fa-3x text-success"></i>
                                 <div>
-                                    <h3 class='text-muted'>Expenses</h3class='text-muted'>
-                                    <h4 class='text-muted'>200,000 Naira</h4>
+                                    <h4 class='text-muted'>Expenses</h4>
+                                    <p class='text-muted text-center'>N200,000</p>
                                 </div>
                             </div>
 
@@ -131,13 +186,13 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-xl-3 col-lg-3 col-sm-6 mb-3">
                         <div class="card my-card">
                             <div class="card-body d-flex justify-content-between">
-                                <i class="fas fa-chart-bar fa-3x text-info"></i>
+                                <i class="fas fa-chart-bar fa-3x text-warning"></i>
                                 <div>
-                                    <h3 class='text-muted'>Summary</h3>
-                                    <h4 class='text-muted text-center'>10 sales</h4>
+                                    <h4 class='text-muted'>Summary</h4>
+                                    <p class='text-muted text-center'>10 sales</p>
                                 </div>
                             </div>
 
@@ -148,13 +203,13 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-6 mb-3">
+                    <div class="col-xl-3 col-lg-3 col-sm-6 mb-3">
                         <div class="card my-card">
                             <div class="card-body d-flex justify-content-between">
-                                <i class="fas fa-user-alt fa-3x text-info"></i>
+                                <i class="fas fa-user-alt fa-3x text-danger"></i>
                                 <div>
-                                    <h3 class='text-muted'>Vendors</h3>
-                                    <h4 class='text-muted text-center'>5</h4>
+                                    <h4 class='text-muted'>Suppliers</h4>
+                                    <p class='text-muted text-center'>5</p>
                                 </div>
                             </div>
 
@@ -172,5 +227,284 @@
     </div>
 
 </section>
+<!-- End of dashboard cards -->
+
+<!-- Start of Quick Links Section -->
+<section>
+    <div class="container-fluid brand-name">
+        
+        <div class="row mb-4">
+            <div class="col-lg-9 col-md-8 col-xl-10 ml-auto">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class='text-muted text-center'>Quick Links</h2>
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="{{ url_for('sales') }}" class="nav-link quicklink text-center">
+                                    <i class="fas fa-shopping-cart fa-lg mr-4 text-info"></i>
+                                    Sell Products
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="{{ url_for('inventory') }}" class="nav-link quicklink text-center">
+                                    <i class="fas fa-store fa-lg mr-4 text-secondary"></i>
+                                    Manage Products
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link quicklink text-center">
+                                    <i class="fas fa-money-bill-alt fa-lg mr-4 text-success"></i>
+                                    Manage Accounts
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-3">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a href="{{ url_for('analytics') }}" class="nav-link quicklink text-center">
+                                    <i class="fas fa-chart-bar fa-lg mr-4 text-warning"></i>
+                                    Sales Report
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+               
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End of Quick link section -->
+
+<!-- Start of Inventory table -->
+<section>
+    <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-lg-9 col-md-8 col-xl-10 ml-auto">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class='text-muted text-center'>Quick Product Management</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <table class="table table-striped table-bordered mydatatable bg-light">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col"> Name</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Cost Price</th>
+                                    <th scope="col">Selling Price</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+            
+                                <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Orange</td>
+                                    <td>Fruits</td>
+                                    <td>Citrus</td>
+                                    <td>20</td>
+                                    <td>200</td>
+                                    <td>300</td>
+                                    <td>
+                                        <span>
+                                            <button type='button' class='btn btn-primary inventory-button' data-toggle="modal" data-target="#stock-modal">Stock</button>
+                                        </span>
+                                        <span>
+                                            <button type='button' class='btn btn-success inventory-button' data-toggle="modal" data-target="#edit-modal">Edit</button>
+                                        </span>
+                                        <span>
+                                            <button type='button' class='btn btn-danger inventory-button' data-toggle="modal" data-target="#delete-modal">Delete</button>
+                                        </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                          </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+   
+
+</section>
+<!-- End of Inventory table -->
+
+<!-- Beginning of all Bootstrap modal codes for the inventory page -->
+<section>
+    <!-- Sign out modal -->
+    <div class="modal fade" id="sign-out-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Do you want to leave?</h4>
+                    <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+                </div>
     
-{% endblock content %}
+                <div class="modal-body">
+                    <p>Click Logout to leave</p>
+                </div>
+    
+                <div class="modal-footer">
+                    <button type='button' class='btn btn-success' data-dismiss='modal'>Stay Here</button>
+                    <a href="{{ url_for('logout')}}" class="btn btn-danger">Log out</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- End of sign out modal -->
+    
+    
+    <!-- Stock modal -->
+    <div class="modal fade" role="dialog" id="stock-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title text-center">Stock the Product</h4>
+                <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+                </div>
+    
+                <div class="modal-body">
+                    <form action="" method="POST">
+                        <div class="form-group">
+                            <label for="stockin">Stock in</label>
+                            <input type="text" class="form-control" id="stockin">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="name" class="mr-2">Unit of Measurement</label>
+                            <select name="" id="">
+                                <option value="">Gram</option>
+                                <option value="">Kilogram</option>
+                                <option value="">Unit</option>
+                            </select>
+                        </div>
+    
+                        <div class="form-group">
+                            <button type="button" class="btn btn-info">Add Stock</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of stock model -->
+    
+    <!-- Edit modal -->
+    <div class="modal fade" role="dialog" id="edit-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title text-center">Edit this Product</h4>
+                <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+                </div>
+    
+                <div class="modal-body">
+                    <form action="" method="POST">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="desc">Description</label>
+                            <input type="text" class="form-control" id="desc">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="cost">Cost Price</label>
+                            <input type="text" class="form-control" id="cost">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="sell">Selling Price</label>
+                            <input type="text" class="form-control" id="sell">
+                        </div>
+    
+                        <div class="form-group">
+                            <label for="name" class="mr-2">Category</label>
+                            <select name="" id="">
+                                <option value="">Fruits</option>
+                                <option value="">Wine</option>
+                                <option value="">Vegetables</option>
+                            </select>
+                        </div>
+    
+                        <div class="form-group">
+                            <button type="button" class="btn btn-info">Update Product</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of edit model -->
+    
+    <!-- Delete modal -->
+    <div class="modal fade" id="delete-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title text-danger">Do you want to Delete?</h4>
+                    <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+                </div>
+    
+                <div class="modal-body">
+                    <p class="text-danger">Clicking Delete Removes Product Permanently. It cannot be reversed.</p>
+                </div>
+    
+                <div class="modal-footer">
+                    <button type='button' class='btn btn-success' data-dismiss='modal'>Cancel</button>
+                    <a href="" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- End of delete  modal -->
+    </section>
+    <!-- End of modals -->
+
+    <script src="{{url_for('static', filename='js/jquery.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/popper.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/all.min.js')}}"></script>
+    
+    <!-- Datatable Scripts -->
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.3.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/jquery.dataTables.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/dataTables.bootstrap4.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='js/dataTables.select.min.js')}}"></script>
+    <script>
+        $('.mydatatable').DataTable();
+    </script>
+</body>
+</html>
+
+
+

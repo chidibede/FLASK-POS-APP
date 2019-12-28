@@ -10,7 +10,7 @@ from pointofsale.models import  User
 # Class that creates and validates registration
 class RegistrationForm(FlaskForm):
     # Dropdown lists
-    roles = [('dash', '---'),('adm', 'Admin'), ('fm','Financial manager'), ('op','Operator')]
+    roles = [('dash', '---'),('Admin', 'Admin'), ('Financial_manager','Financial manager'), ('Operator','Operator')]
 
     # The form fields for registration
     fullname = StringField('Full Name', validators=[DataRequired()])
