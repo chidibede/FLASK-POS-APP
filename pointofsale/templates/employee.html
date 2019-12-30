@@ -3,9 +3,141 @@
 {% block title %} Employee Management {% endblock title %}
 
 {% block content %} 
+<section>
+     
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mb-4">
+                {% with messages = get_flashed_messages(with_categories=True)%}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class='row mt-4'>
+                                <div class='alert alert-{{ category }} col-md-6 mx-auto'>
+                                        {{ message }}
+                                </div>
+                            
+                            </div>
+                        {% endfor %}
+                 {% endif %}
+                {% endwith %}
+                <h3 class='text-center text-muted mt-4 inventory-heading'>Employee Management</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-striped table-bordered mydatatable bg-light">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col"> Fullname</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Role</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for employee in employees %}    
+                    <tr>
+                        <th scope="row">{{employee.id}}</th>
+                        <td>{{employee.fullname}}</td>
+                        <td>{{employee.username}}</td>
+                        <td>{{employee.email}}</td>
+                        <td>{{employee.role}}</td>
+                        <td class="text-center">
+                            <span>
+                                <a href="/employee_update/{{ employee.id }}" class='btn btn-success inventory-button' data-toggle="modal" data-target="#edit-modal{{employee.id}}">Edit</a>
+                            </span>
+                            <span>
+                                <a href="/employee_delete/{{ employee.id }}" class='btn btn-danger inventory-button' data-toggle="modal" data-target="#delete-modal{{ employee.id }}">Delete</a>
+                            </span>
+                        </td>
+                    </tr>
+
+                    <!-- Edit modal -->
+                    <div class="modal fade" role="dialog" id="edit-modal{{employee.id}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h4 class="modal-title text-center">Edit Employee Info</h4>
+                                <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form action="{{url_for('employee_update')}}" method="POST">
+                                        <div class="form-group">
+                                            <label for="name">Fullname</label>
+                                            <input type="hidden" value="{{employee.fullname}}" name="oldname">
+                                            <input type="text" class="form-control" name="fullname" id="name" value="{{employee.fullname}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="name">username</label>
+                                            <input type="hidden" value="{{employee.username}}" name="oldusername">
+                                            <input type="text" class="form-control" name="username" id="name" value="{{employee.username}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="name">Email</label>
+                                            <input type="hidden" value="{{employee.email}}" name="oldemail">
+                                            <input type="text" class="form-control" name="email" id="name" value="{{employee.email}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="name">Role</label>
+                                            <input type="hidden" value="{{employee.role}}" name="oldrole">
+                                            <input type="text" class="form-control" name="role" id="name" value="{{employee.role}}">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-info">Update Info</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of edit model -->
 
 
-<!-- Start of Bootstrap modal -->
+                    <!-- Delete modal -->
+                    <div class="modal fade" id="delete-modal{{employee.id}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title text-danger">Do you want to Delete?</h4>
+                                    <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <p class="text-danger">Clicking Delete Removes <span class="font-weight-bolder text-uppercase">{{employee.name}}</span> Permanently. It cannot be reversed.</p>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type='button' class='btn btn-success' data-dismiss='modal'>Cancel</button>
+                                    <form action="{{url_for('employee_delete')}}" method='POST'>
+                                        <input type="hidden" value="{{employee.fullname}}" name="name">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- End of delete  modal -->
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End of Employee table -->
+
+<!-- Beginning of all Bootstrap modal codes for the inventory page -->
+<section>
+<!-- Sign out modal -->
 <div class="modal fade" id="sign-out-modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -25,10 +157,15 @@
         </div>
         
     </div>
-
 </div>
-<!-- End of Bootstrap modal -->
+<!-- End of sign out modal -->
 
-<h1 class='text-center mt-4'>Employee Management</h1>
+
+
+
+
+
+</section>
+<!-- End of modals -->
     
 {% endblock content %}

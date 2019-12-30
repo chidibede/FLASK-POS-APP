@@ -5,18 +5,30 @@
 {% block content %} 
 <!-- Start of inventory table -->
 <section>
-
+     
     <div class="container">
         <div class="row">
             <div class="col-12 mb-4">
+                {% with messages = get_flashed_messages(with_categories=True)%}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class='row mt-4'>
+                                <div class='alert alert-{{ category }} col-md-6 mx-auto'>
+                                        {{ message }}
+                                </div>
+                            
+                            </div>
+                        {% endfor %}
+                 {% endif %}
+                {% endwith %}
                 <h3 class='text-center text-muted mt-4 inventory-heading'>Inventory Management</h3>
             </div>
         </div>
         <div class="row">
             <div class="col-12 mb-4">
-                <button class="btn btn-success" data-toggle="modal" data-target="#add-category-modal">Add Category</button> 
-                <button class="btn btn-success">Edit Category</button>
-                <button class="btn btn-success float-right"  data-toggle="modal" data-target="#add-modal">Add New Product</button>
+                <button class="btn btn-success add-inventory-button" data-toggle="modal" data-target="#add-category-modal">Add Category</button> 
+                <button class="btn btn-success add-inventory-button">Edit Category</button>
+                <button class="btn btn-success add-inventory-button float-right"  data-toggle="modal" data-target="#add-modal">Add New Product</button>
             </div>
         </div>
         <div class="row">
@@ -28,34 +40,147 @@
                         <th scope="col"> Name</th>
                         <th scope="col">Category</th>
                         <th scope="col">Description</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Cost Price</th>
+                        <th scope="col">Qty(g)</th>
+                        <th scope="col">Qty(units)</th>
                         <th scope="col">Selling Price</th>
                         <th scope="col">Action</th>
                     </tr>
                     </thead>
 
                     <tbody>
+                    {% for product in products %}    
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Orange</td>
-                        <td>Fruits</td>
-                        <td>Citrus</td>
-                        <td>20</td>
-                        <td>200</td>
-                        <td>300</td>
-                        <td>
+                        <th scope="row">{{product.id}}</th>
+                        <td><a href="{{ url_for('details')}}/{{product.id}}" class="details">{{product.name}}</a></td>
+                        <td>{{product.category}}</td>
+                        <td>{{product.description}}</td>
+                        <td>{{product.qty_g}}</td>
+                        <td>{{product.qty_units}}</td>
+                        <td>{{product.selling_price}}</td>
+                        <td class="text-center">
                             <span>
-                                <button type='button' class='btn btn-primary inventory-button' data-toggle="modal" data-target="#stock-modal">Stock</button>
+                                <a href="/stock/{{ product.id }}" class='btn btn-primary inventory-button' data-toggle="modal" data-target="#stock-modal{{ product.id }}">Stock</a>
                             </span>
                             <span>
-                                <button type='button' class='btn btn-success inventory-button' data-toggle="modal" data-target="#edit-modal">Edit</button>
+                                <a href="/update/{{ product.id }}" class='btn btn-success inventory-button' data-toggle="modal" data-target="#edit-modal{{product.id}}">Edit</a>
                             </span>
                             <span>
-                                <button type='button' class='btn btn-danger inventory-button' data-toggle="modal" data-target="#delete-modal">Delete</button>
+                                <a href="/delete/{{ product.id }}" class='btn btn-danger inventory-button' data-toggle="modal" data-target="#delete-modal{{ product.id }}">Delete</a>
                             </span>
                         </td>
                     </tr>
+
+                    <!-- Edit modal -->
+                    <div class="modal fade" role="dialog" id="edit-modal{{product.id}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h4 class="modal-title text-center">Edit this Product</h4>
+                                <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form action="{{url_for('update')}}" method="POST">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="hidden" value="{{product.name}}" name="oldname">
+                                            <input type="text" class="form-control" name="name" id="name" value="{{product.name}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="desc">Description</label>
+                                            <input type="hidden" value="{{product.description}}" name="olddescription">
+                                            <input type="text" class="form-control" name="desc" id="desc" value="{{product.description}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="cost">Cost Price</label>
+                                            <input type="hidden" value="{{product.cost_price}}" name="oldcostprice">
+                                            <input type="text" class="form-control" name="cost_price" id="cost" value="{{product.cost_price}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="sell">Selling Price</label>
+                                            <input type="hidden" value="{{product.selling_price}}" name="oldsellingprice">
+                                            <input type="text" class="form-control" name="selling_price" id="sell"  value="{{product.selling_price}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="category">Category</label>
+                                            <input type="hidden" value="{{product.category}}" name="oldcategory">
+                                            <input type="text" name="category" class="form-control" id="category"  value="{{product.category}}">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-info">Update Product</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of edit model -->
+
+                    <!-- Stock modal -->
+                    <div class="modal fade" role="dialog" id="stock-modal{{ product.id }}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h4 class="modal-title text-center">Stock the Product</h4>
+                                <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form action="{{url_for('stock')}}" method="POST">
+                                        <div class="form-group">
+                                            <input type="hidden" value="{{product.name}}" name="oldname">
+                                            <label for="stockin">Name</label>
+                                            <input type="text" class="form-control" value="{{product.name}}" name="name">
+                                            <label for="stockin">Quantity in grams</label>
+                                            <input type="text" class="form-control" name="quantity_g" id="name" value="{{product.qty_g}}">
+                                            <label for="stockin">Quantity in units</label>
+                                            <input type="text" class="form-control" name="quantity_unit" id="name" value="{{product.qty_units}}">
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-info">Add Stock</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End of stock model -->
+
+
+
+                    <!-- Delete modal -->
+                    <div class="modal fade" id="delete-modal{{product.id}}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title text-danger">Do you want to Delete?</h4>
+                                    <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <p class="text-danger">Clicking Delete Removes <span class="font-weight-bolder text-uppercase">{{product.name}}</span> Permanently. It cannot be reversed.</p>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type='button' class='btn btn-success' data-dismiss='modal'>Cancel</button>
+                                    <form action="{{url_for('delete')}}" method='POST'>
+                                        <input type="hidden" value="{{product.name}}" name="name">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <!-- End of delete  modal -->
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -99,17 +224,17 @@
             </div>
 
             <div class="modal-body">
-                <form action="" method="POST">
+                <form action="{{ url_for('add_category')}}" method="POST">
                     <div class="form-group">
-                        <label for="stockin">Category </label>
-                        <input type="text" class="form-control" id="stockin">
+                        <label for="category">Category </label>
+                        <input type="text" name='category' class="form-control" id="category">
                     </div>
-
 
                     <div class="form-group">
                         <button type="submit" class="btn btn-info">Add Category</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
@@ -126,38 +251,35 @@
             </div>
 
             <div class="modal-body">
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" required='1'>
+                <form action="{{ url_for('add_product')}}" method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class='form-group'>
+                        {{ form.name.label(class='form-control-label') }}
+                        {{ form.name(class='form-control') }}
                     </div>
 
-                    <div class="form-group">
-                        <label for="desc">Description</label>
-                        <input type="text" class="form-control" id="desc">
+                    <div class='form-group'>
+                        {{ form.description.label(class='form-control-label') }}
+                        {{ form.description(class='form-control') }}
                     </div>
 
-                    <div class="form-group">
-                        <label for="cost">Cost Price</label>
-                        <input type="text" class="form-control" id="cost">
+                    <div class='form-group'>
+                        {{ form.cost_price.label(class='form-control-label') }}
+                        {{ form.cost_price(class='form-control') }}
                     </div>
 
-                    <div class="form-group">
-                        <label for="sell">Selling Price</label>
-                        <input type="text" class="form-control" id="sell" required='1'>
+                    <div class='form-group'>
+                        {{ form.selling_price.label(class='form-control-label') }}
+                        {{ form.selling_price(class='form-control') }}
                     </div>
 
-                    <div class="form-group">
-                        <label for="name" class="mr-2">Category</label>
-                        <select name="" id="">
-                            <option value="">Fruits</option>
-                            <option value="">Wine</option>
-                            <option value="">Vegetables</option>
-                        </select>
+                    <div class='form-group'>
+                        {{ form.category.label(class='form-control-label') }}
+                        {{ form.category(class='form-control') }}
                     </div>
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-info" >Add Product</button>
+                    <div class='form-group'>
+                        {{ form.submit(class=' form-control btn btn-primary') }}
                     </div>
                 </form>
             </div>
@@ -166,114 +288,42 @@
 </div>
 <!-- End of add model -->
 
-<!-- Stock modal -->
-<div class="modal fade" role="dialog" id="stock-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title text-center">Stock the Product</h4>
-            <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
-            </div>
 
-            <div class="modal-body">
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <label for="stockin">Stock in</label>
-                        <input type="text" class="form-control" id="stockin" required='1'>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="name" class="mr-2">Unit of Measurement</label>
-                        <select name="" id="">
-                            <option value="">Gram</option>
-                            <option value="">Kilogram</option>
-                            <option value="">Unit</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-info">Add Stock</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of stock model -->
-
-<!-- Edit modal -->
-<div class="modal fade" role="dialog" id="edit-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title text-center">Edit this Product</h4>
-            <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
-            </div>
-
-            <div class="modal-body">
-                <form action="" method="POST">
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="desc">Description</label>
-                        <input type="text" class="form-control" id="desc">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="cost">Cost Price</label>
-                        <input type="text" class="form-control" id="cost">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="sell">Selling Price</label>
-                        <input type="text" class="form-control" id="sell">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="name" class="mr-2">Category</label>
-                        <select name="" id="">
-                            <option value="">Fruits</option>
-                            <option value="">Wine</option>
-                            <option value="">Vegetables</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-info">Update Product</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End of edit model -->
-
-<!-- Delete modal -->
-<div class="modal fade" id="delete-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title text-danger">Do you want to Delete?</h4>
-                <button type='button' class='close text-danger' data-dismiss='modal'>&times;</button>
-            </div>
-
-            <div class="modal-body">
-                <p class="text-danger">Clicking Delete Removes Product Permanently. It cannot be reversed.</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type='button' class='btn btn-success' data-dismiss='modal'>Cancel</button>
-                <a href="" class="btn btn-danger">Delete</a>
-            </div>
-        </div>
-        
-    </div>
-</div>
-<!-- End of delete  modal -->
 </section>
 <!-- End of modals -->
 
 {% endblock content %}
+
+<!-- <div class='form-group'>
+    {{ form.name.label(class='form-control-label') }}
+    {{ form.name(class='form-control') }}
+</div>
+
+<div class='form-group'>
+    {{ form.description.label(class='form-control-label') }}
+    {{ form.description(class='form-control') }}
+</div>
+
+<div class='form-group'>
+    {{ form.cost_price.label(class='form-control-label') }}
+    {{ form.cost_price(class='form-control') }}
+</div>
+
+<div class='form-group'>
+    {{ form.selling_price.label(class='form-control-label') }}
+    {{ form.selling_price(class='form-control') }}
+</div>
+
+<div class='form-group'>
+    {{ form.unit.label(class='form-control-label') }}
+    {{ form.unit(class='form-control') }}
+</div>
+
+<div class='form-group'>
+    {{ form.category.label(class='form-control-label') }}
+    {{ form.category(class='form-control') }}
+</div>
+
+<div class='form-group'>
+    {{ form.submit(class=' form-control btn btn-primary') }}
+</div> -->

@@ -75,6 +75,19 @@ background-color: #eee;
     margin: 1px;
 }
 
+.add-inventory-button{
+    margin: 1px;
+    border-radius: 13px;
+}
+
+.details:hover{
+    background-color: darkslategrey;
+    padding: 5px;
+    border-radius: 7px;
+    transform: translateY(-1px);
+    color: white;
+}
+
 .inventory-heading{
     margin: 1em 0 0.5em 0;
 	color: #343434;
@@ -94,3 +107,4 @@ background-color: #eee;
     background-color: white;
     margin-top: 10px
 }
+

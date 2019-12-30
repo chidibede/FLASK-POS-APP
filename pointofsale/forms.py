@@ -2,9 +2,10 @@
 
 # Libraries needed
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, SubmitField
+from wtforms_alchemy import QuerySelectField
+from wtforms import StringField, IntegerField, PasswordField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from pointofsale.models import  User
+from pointofsale.models import  User, Product_Category, Product
 
 
 # Class that creates and validates registration
@@ -54,3 +55,14 @@ class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=40)])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=2)])
     login = SubmitField('Login')
+
+def category_query():
+    return Product_Category.query
+
+class ProductForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    description = StringField('Description')
+    cost_price = IntegerField('Cost Price', validators=[DataRequired()])
+    selling_price = IntegerField('Selling Price', validators=[DataRequired()])
+    category = QuerySelectField(query_factory=category_query, allow_blank=True, get_label="name")
+    submit = SubmitField('Add Product')
