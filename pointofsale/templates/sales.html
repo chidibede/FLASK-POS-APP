@@ -5,6 +5,50 @@
 {% block content %} 
 
 
+
+<!-- Start of Dashboard Cards-->
+<section>
+    <div class="container-fluid ">
+        <div class="row">
+            <div class="col-md-12 col-xl-12 col-lg-12">
+                <div class="mt-2 p-2 sales-heading"><h4 class="text-center ">Sales/Billing</h4></div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-xl-4 invoice">
+                <h4 class="text-center">RECEIPT</h4>
+                <div id="invoice-div"></div>
+                <div id="output"></div>
+            </div>
+            
+            <div class="col-lg-7 col-md-7 col-xl-7 mt-2">
+                <div class="row">
+                    {% for product in products %}
+                    <div class="col-md-4 mb-3">
+                        <a href="#" class="custom-card" id='product-card'>
+                            <div class="card" name='product-card'>
+                                <img src="{{ url_for('static', filename='img/'+ product.image_file) }}" class="card-img-top" alt="..." height=100>
+                                <div class="card-body">
+                                    <h4 id="name">{{ product.name }}</h4>
+                                    <p class="card-text">{{ product.category }}</p>
+                                </div>
+                            </div>
+                         </a>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                   
+
+            </div>
+            
+        </div>
+    </div>
+
+</section>
+<!-- End of dashboard cards -->
+
 <!-- Start of Bootstrap modal -->
 <div class="modal fade" id="sign-out-modal">
     <div class="modal-dialog">
@@ -28,6 +72,6 @@
 
 </div>
 <!-- End of Bootstrap modal -->
-<h1 class='text-center mt-4'>Sell Goods</h1>
+
     
 {% endblock content %}

@@ -96,7 +96,16 @@ background-color: #eee;
 	font-size: 36px;
 	line-height: 42px;
 	text-transform: uppercase;
-	text-shadow: 0 4px white, 0 3px #777;
+    text-shadow: 0 4px white, 0 3px #777;
+}
+
+.sales-heading{
+    margin: 1em 0 0.5em 0;
+	color: #383838;
+	font-weight: normal;
+	font-family: 'Ultra', sans-serif;   
+	text-transform: uppercase;
+    text-shadow: 0 4px white, 0 3px #777;
 }
 
 .profile{
@@ -108,3 +117,14 @@ background-color: #eee;
     margin-top: 10px
 }
 
+.invoice{
+
+    border: 1px solid black;
+    margin: 5px;
+
+}
+
+a.custom-card, a.custom-card:hover{
+    color: inherit;
+    text-decoration: none;
+}

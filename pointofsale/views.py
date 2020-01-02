@@ -1,11 +1,13 @@
 ''' Application views script'''
 
 # Libraries and imports needed
-from pointofsale import app, db, bcrypt
-from flask import Flask, render_template, url_for, flash, redirect, request
+import secrets
+from pointofsale import app, db, bcrypt, photos
+from flask import Flask, render_template, url_for, flash, redirect, request, jsonify
 from pointofsale.forms import RegistrationForm, LoginForm, ProductForm
 from pointofsale.models import User, Product, Product_Category
 from flask_login import login_user, logout_user, current_user, login_required
+
 
 
 # function that renders home page
@@ -71,11 +73,13 @@ def profile():
 @login_required
 def dashboard():
     products = Product.query.all()
-    return render_template('dashboard.html', products=products)
+    form = ProductForm()
+    return render_template('dashboard.html', products=products, form=form)
 
 @app.route('/sales')
 def sales():
-    return render_template('sales.html')
+    products = Product.query.all()
+    return render_template('sales.html', products=products)
 
 @app.route('/inventory')
 @login_required
@@ -132,6 +136,7 @@ def add_category():
 @app.route('/update', methods=['GET', 'POST'])
 def update():
     if request.method =='POST':
+        image = photos.save(request.files.get('image'), name=secrets.token_hex(10) + ".")
         oldname = request.form['oldname']
         name = request.form['name']
         description = request.form['desc']
@@ -144,6 +149,7 @@ def update():
         product.cost_price = cost_price
         product.selling_price = selling_price
         product.category = category
+        product.image_file = image
         db.session.commit()
         flash(f'Product Updated Succesfully', 'success')
         return redirect(url_for('inventory'))
@@ -198,3 +204,10 @@ def employee_delete():
         db.session.commit()
         flash(f'User Deleted Succesfully', 'success')
         return redirect(url_for('employee'))
+
+@app.route('/sales_process', methods=['GET','POST'])
+def sales_process():
+    name = request.args.get('#name')
+    output = name
+    if name:
+        return jsonify({'output':' Name: ' + output})

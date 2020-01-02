@@ -41,14 +41,10 @@ class Product(db.Model):
     cost_price = db.Column(db.Integer, nullable=False, default=0)
     selling_price = db.Column(db.Integer, nullable=False, default=0)
     category = db.Column(db.String(30), default='Grocery')
-    image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
+    image_file = db.Column(db.String(150), nullable=False, default='default.jpg')
     date_created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
 
     def __repr__(self):
         return f"Product('{self.name}')"
-
-
-
-

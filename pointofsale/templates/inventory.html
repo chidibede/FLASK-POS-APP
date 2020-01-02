@@ -80,7 +80,7 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <form action="{{url_for('update')}}" method="POST">
+                                    <form action="{{url_for('update')}}" method="POST" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label for="name">Name</label>
                                             <input type="hidden" value="{{product.name}}" name="oldname">
@@ -110,6 +110,18 @@
                                             <input type="hidden" value="{{product.category}}" name="oldcategory">
                                             <input type="text" name="category" class="form-control" id="category"  value="{{product.category}}">
                                         </div>
+
+                                        <div class='form-group'>
+                                            {{ form.image.label(class='form-control-label') }}
+                                            {{ form.image(class='form-control') }}
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="category">Staff</label>
+                                            <input type="text" name="staff" class="form-control" id="staff"  value="{{product.staff}}" readonly>
+                                        </div>
+                                        
+                                       
 
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-info">Update Product</button>

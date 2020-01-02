@@ -6,7 +6,7 @@ from wtforms_alchemy import QuerySelectField
 from wtforms import StringField, IntegerField, PasswordField, SelectField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from pointofsale.models import  User, Product_Category, Product
-
+from flask_wtf.file import FileAllowed, FileField,FileRequired
 
 # Class that creates and validates registration
 class RegistrationForm(FlaskForm):
@@ -65,4 +65,5 @@ class ProductForm(FlaskForm):
     cost_price = IntegerField('Cost Price', validators=[DataRequired()])
     selling_price = IntegerField('Selling Price', validators=[DataRequired()])
     category = QuerySelectField(query_factory=category_query, allow_blank=True, get_label="name")
+    image = FileField("Product Image", validators=[FileRequired(), FileAllowed(['jpeg', 'jpg', 'png', 'gif']), 'Only Images'])
     submit = SubmitField('Add Product')
